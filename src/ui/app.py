@@ -29,7 +29,7 @@ class App:
         self.root.geometry("500x300")  # Width x Height
 
         # Prevent resizing (optional)
-        self.root.resizable(False, False)
+        # self.root.resizable(False, False)
 
         # Folder paths
         self.search_folder_path = tk.StringVar()
