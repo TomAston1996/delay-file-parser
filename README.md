@@ -18,10 +18,12 @@ The output of the application is one excel file with all delay data combined, gr
 ## 🔧 Setup
 
 ### 📋 Dependencies
-Run the command ```pip install -r requirements.txt``` to install dependencies.
+Run the command ```pip install -r requirements.txt``` to install dependencies or ```uv sync``` if using uv package manager.
 
 ### Run Locally
 ``` python ./DelayFileParser.py``` will run the GUI via the terminal or a .exe file is provided in the ```dist``` directory.
+### Build
+To build the app for distribution run ```python build.py```. The ```.exe``` file will be created in your ```dist``` directory.
 
 
 ## 🧑‍🤝‍🧑 Developers 
