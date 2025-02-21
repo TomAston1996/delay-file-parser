@@ -19,7 +19,7 @@ dependencies = [
     "pywin32-ctypes==0.2.3",
     "six==1.17.0",
     "tk==0.1.0",
-    "tzdata==2025.1"
+    "tzdata==2025.1",
 ]
 
 [tool.ruff]

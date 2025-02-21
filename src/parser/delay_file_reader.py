@@ -16,7 +16,9 @@ class DelayFileReader:
     """
 
     @staticmethod
-    def parse_train_delay_file(path: str, event_filter: str = None, delay_filter: DelayFilter = DelayFilter.FIFTEEN_PLUS) -> pd.DataFrame:
+    def parse_train_delay_file(
+        path: str, event_filter: str = None, delay_filter: DelayFilter = DelayFilter.FIFTEEN_PLUS
+    ) -> pd.DataFrame:
         """
         parse_train_delay_file parses the delay file from the path given and returns the pandas dataframe
         """
@@ -56,14 +58,14 @@ class DelayFileReader:
         if "Variation" not in delay_dataframe.columns:
             print("Variation column not found in the delay file")
             return None
-        
+
         if delay_filter == DelayFilter.FIFTEEN_PLUS:
             delay_dataframe = delay_dataframe[delay_dataframe["Variation"] >= 15].reset_index(drop=True)
         elif delay_filter == DelayFilter.THREE_TO_FIFTEEN:
             delay_dataframe = delay_dataframe[
                 (delay_dataframe["Variation"] >= 3) & (delay_dataframe["Variation"] < 15)
             ].reset_index(drop=True)
-        
+
         return delay_dataframe
 
     @staticmethod

@@ -59,10 +59,7 @@ class App:
         self.event_filter_dropdown.current(0)
 
         # DelayDropdown Filter
-        self.delay_filter_map = {
-            "15mins+": DelayFilter.FIFTEEN_PLUS,
-            "3-15mins": DelayFilter.THREE_TO_FIFTEEN
-        }
+        self.delay_filter_map = {"15mins+": DelayFilter.FIFTEEN_PLUS, "3-15mins": DelayFilter.THREE_TO_FIFTEEN}
         self.selected_delay_filter = tk.StringVar()
         self.delay_filter_label = tk.Label(root, text="Select Delay Filter:")
         self.delay_filter_label.pack(pady=5)
