@@ -44,9 +44,7 @@ class ExcelBuilder:
         """
         build_excel_file builds the excel file from the pandas dataframes parsed from the delay files
         """
-        files_to_parse = self.folder_scanner.get_list_of_files_in_folder(
-            self.folder_path
-        )
+        files_to_parse = self.folder_scanner.get_list_of_files_in_folder(self.folder_path)
 
         if files_to_parse is None:
             return
@@ -54,9 +52,7 @@ class ExcelBuilder:
         self.__build_dataframe_from_files(files_to_parse)
         self.__format_dataframe()
 
-        self.excel_dataframe.to_excel(
-            f"{self.destination_path}/results-{time.time()}.xlsx", index=False
-        )
+        self.excel_dataframe.to_excel(f"{self.destination_path}/results-{time.time()}.xlsx", index=False)
 
     def __build_dataframe_from_files(self, files_to_parse: list[str]) -> None:
         """
@@ -74,9 +70,7 @@ class ExcelBuilder:
             if self.excel_dataframe is None:
                 self.excel_dataframe = delay_dataframe
             else:
-                self.excel_dataframe = pd.concat(
-                    [self.excel_dataframe, delay_dataframe], ignore_index=True
-                )
+                self.excel_dataframe = pd.concat([self.excel_dataframe, delay_dataframe], ignore_index=True)
 
             self.progress_tracker.update_progress(i, total_number_files)
 

@@ -64,9 +64,7 @@ class App:
             command=self.select_train_delay_folder,
         )
         self.folder1_button.pack(pady=5)
-        self.folder1_label = tk.Label(
-            root, textvariable=self.search_folder_path, wraplength=400
-        )
+        self.folder1_label = tk.Label(root, textvariable=self.search_folder_path, wraplength=400)
         self.folder1_label.pack(pady=5)
 
         # Destination Folder Selection
@@ -76,21 +74,15 @@ class App:
             command=self.select_destination_folder,
         )
         self.folder2_button.pack(pady=5)
-        self.folder2_label = tk.Label(
-            root, textvariable=self.destination_folder_path, wraplength=400
-        )
+        self.folder2_label = tk.Label(root, textvariable=self.destination_folder_path, wraplength=400)
         self.folder2_label.pack(pady=5)
 
         # Action Button
-        self.action_button = tk.Button(
-            root, text="Run", command=self.run, bg="green", fg="white"
-        )
+        self.action_button = tk.Button(root, text="Run", command=self.run, bg="green", fg="white")
         self.action_button.pack(pady=10)
 
         # Progress Bar
-        self.progress = ttk.Progressbar(
-            root, orient="horizontal", length=400, mode="determinate"
-        )
+        self.progress = ttk.Progressbar(root, orient="horizontal", length=400, mode="determinate")
         self.progress.pack(pady=10)
 
         self.__configure_styling()
@@ -141,9 +133,7 @@ class App:
         print(f"Destination Directory: {self.destination_folder_path.get()}")
 
         if not self.search_folder_path.get() or not self.destination_folder_path.get():
-            messagebox.showwarning(
-                "Warning", "Please select both folders before proceeding."
-            )
+            messagebox.showwarning("Warning", "Please select both folders before proceeding.")
             return
 
         progress_tracker = ProgressTracker(self.progress)
@@ -157,14 +147,10 @@ class App:
             progress_tracker=progress_tracker,
         )
 
-        thread = threading.Thread(
-            target=self.run_excel_bulder, args=(excel_builder, progress_tracker)
-        )
+        thread = threading.Thread(target=self.run_excel_bulder, args=(excel_builder, progress_tracker))
         thread.start()
 
-    def run_excel_bulder(
-        self, excel_builder: ExcelBuilder, progress_tracker: ProgressTracker
-    ) -> None:
+    def run_excel_bulder(self, excel_builder: ExcelBuilder, progress_tracker: ProgressTracker) -> None:
         """
         Run the excel builder process
         """

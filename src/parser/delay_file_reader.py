@@ -22,13 +22,9 @@ class DelayFileReader:
         if delay_dataframe is None:
             return None
 
-        delay_dataframe = DelayFileReader.__filter_delay_greater_than_15_minutes(
-            delay_dataframe
-        )
+        delay_dataframe = DelayFileReader.__filter_delay_greater_than_15_minutes(delay_dataframe)
 
-        delay_dataframe = DelayFileReader.__filter_by_event_type(
-            delay_dataframe, event_filter
-        )
+        delay_dataframe = DelayFileReader.__filter_by_event_type(delay_dataframe, event_filter)
 
         return delay_dataframe
 
@@ -58,21 +54,17 @@ class DelayFileReader:
             print("Variation column not found in the delay file")
             return None
 
-        delay_dataframe = delay_dataframe[
-            delay_dataframe["Variation"] >= 15
-        ].reset_index(drop=True)
+        delay_dataframe = delay_dataframe[delay_dataframe["Variation"] >= 15].reset_index(drop=True)
         return delay_dataframe
 
     @staticmethod
-    def __filter_by_event_type(
-        delay_dataframe: pd.DataFrame, event_filter: str
-    ) -> pd.DataFrame:
+    def __filter_by_event_type(delay_dataframe: pd.DataFrame, event_filter: str) -> pd.DataFrame:
         """
         filter_by_event_type filters the delays by the event type
         """
         if event_filter == "All Events" or not event_filter:
             return delay_dataframe
 
-        return delay_dataframe[
-            delay_dataframe["PlannedEvent"] == event_filter
-        ].reset_index(drop=True)
+        # //print(f"Filtering by event type: {event_filter}")
+
+        return delay_dataframe[delay_dataframe["PlannedEvent"] == event_filter].reset_index(drop=True)
