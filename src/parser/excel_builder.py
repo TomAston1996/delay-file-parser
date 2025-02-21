@@ -12,6 +12,7 @@ from src.ui.iprogress_tracker import IProgressTracker
 
 from .delay_file_reader import DelayFileReader
 from .folder_scanner import FolderScanner
+from .enums import DelayFilter
 
 
 class ExcelBuilder:
@@ -27,6 +28,7 @@ class ExcelBuilder:
         destination_path: str,
         event_filter: str = None,
         progress_tracker: IProgressTracker = None,
+        delay_filter: DelayFilter = DelayFilter.FIFTEEN_PLUS,
     ) -> None:
         """
         Constructor for ExcelBuilder class
@@ -37,6 +39,7 @@ class ExcelBuilder:
         self.destination_path = destination_path
         self.event_filter = event_filter
         self.progress_tracker = progress_tracker
+        self.delay_filter = delay_filter
 
         self.excel_dataframe: pd.DataFrame = None
 
@@ -62,7 +65,7 @@ class ExcelBuilder:
 
         for i, file in enumerate(files_to_parse, 1):
             delay_dataframe = self.delay_file_reader.parse_train_delay_file(
-                f"{self.folder_path}/{file}", self.event_filter
+                f"{self.folder_path}/{file}", self.event_filter, self.delay_filter
             )
             if delay_dataframe is None:
                 continue

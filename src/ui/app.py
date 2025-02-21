@@ -12,6 +12,7 @@ from src.ui.progress_tracker import ProgressTracker
 from src.parser.delay_file_reader import DelayFileReader
 from src.parser.excel_builder import ExcelBuilder
 from src.parser.folder_scanner import FolderScanner
+from src.parser.enums import DelayFilter
 
 
 class App:
@@ -33,7 +34,7 @@ class App:
 
         self.root = root
         self.root.title("Train Delay File Parser")
-        self.root.geometry("500x300")  # Width x Height
+        self.root.geometry("600x450")  # Width x Height
 
         # Prevent resizing (optional)
         # self.root.resizable(False, False)
@@ -42,20 +43,39 @@ class App:
         self.search_folder_path = tk.StringVar()
         self.destination_folder_path = tk.StringVar()
 
-        # Dropdown Filter
-        self.selected_filter = tk.StringVar()
-        self.filter_label = tk.Label(root, text="Select Event Filter:")
-        self.filter_label.pack(pady=5)
+        # Event Dropdown Filter
+        self.selected_event_filter = tk.StringVar()
+        self.event_filter_label = tk.Label(root, text="Select Event Filter:")
+        self.event_filter_label.pack(pady=5)
 
-        self.filter_options = ["All Events", "Arrival", "Departure", "Destination"]
-        self.filter_dropdown = ttk.Combobox(
+        self.event_filter_options = ["All Events", "Arrival", "Departure", "Destination"]
+        self.event_filter_dropdown = ttk.Combobox(
             root,
-            values=self.filter_options,
-            textvariable=self.selected_filter,
+            values=self.event_filter_options,
+            textvariable=self.selected_event_filter,
             state="readonly",
         )
-        self.filter_dropdown.pack(pady=5)
-        self.filter_dropdown.current(0)
+        self.event_filter_dropdown.pack(pady=5)
+        self.event_filter_dropdown.current(0)
+
+        # DelayDropdown Filter
+        self.delay_filter_map = {
+            "15mins+": DelayFilter.FIFTEEN_PLUS,
+            "3-15mins": DelayFilter.THREE_TO_FIFTEEN
+        }
+        self.selected_delay_filter = tk.StringVar()
+        self.delay_filter_label = tk.Label(root, text="Select Delay Filter:")
+        self.delay_filter_label.pack(pady=5)
+
+        self.delay_filter_options = list(self.delay_filter_map.keys())
+        self.delay_filter_dropdown = ttk.Combobox(
+            root,
+            values=self.delay_filter_options,
+            textvariable=self.selected_delay_filter,
+            state="readonly",
+        )
+        self.delay_filter_dropdown.pack(pady=5)
+        self.delay_filter_dropdown.current(0)
 
         # Train Delay Folder Selection
         self.folder1_button = tk.Button(
@@ -98,8 +118,11 @@ class App:
         style.configure("TCombobox", fieldbackground="#444746", background="#444746")
 
         self.root.configure(bg="#202124")
-        self.filter_label.configure(bg="#202124", fg="white", pady=5)
-        self.filter_dropdown.configure(style="TCombobox")
+        self.event_filter_label.configure(bg="#202124", fg="white", pady=5)
+        self.event_filter_dropdown.configure(style="TCombobox")
+
+        self.delay_filter_label.configure(bg="#202124", fg="white", pady=5)
+        self.delay_filter_dropdown.configure(style="TCombobox")
 
         self.folder1_button.configure(bg="#444746", fg="white")
         self.folder1_label.configure(bg="#202124", fg="white")
@@ -143,8 +166,9 @@ class App:
             folder_scanner=self.folder_scanner,
             folder_path=self.search_folder_path.get(),
             destination_path=self.destination_folder_path.get(),
-            event_filter=self.selected_filter.get(),
+            event_filter=self.selected_event_filter.get(),
             progress_tracker=progress_tracker,
+            delay_filter=self.delay_filter_map[self.selected_delay_filter.get()],
         )
 
         thread = threading.Thread(target=self.run_excel_bulder, args=(excel_builder, progress_tracker))

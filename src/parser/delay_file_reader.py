@@ -6,6 +6,8 @@ Author: Tom Aston
 
 import pandas as pd
 
+from .enums import DelayFilter
+
 
 class DelayFileReader:
     """
@@ -14,7 +16,7 @@ class DelayFileReader:
     """
 
     @staticmethod
-    def parse_train_delay_file(path: str, event_filter: str = None) -> pd.DataFrame:
+    def parse_train_delay_file(path: str, event_filter: str = None, delay_filter: DelayFilter = DelayFilter.FIFTEEN_PLUS) -> pd.DataFrame:
         """
         parse_train_delay_file parses the delay file from the path given and returns the pandas dataframe
         """
@@ -22,7 +24,7 @@ class DelayFileReader:
         if delay_dataframe is None:
             return None
 
-        delay_dataframe = DelayFileReader.__filter_delay_greater_than_15_minutes(delay_dataframe)
+        delay_dataframe = DelayFileReader.__apply_delay_filter(delay_dataframe, delay_filter)
 
         delay_dataframe = DelayFileReader.__filter_by_event_type(delay_dataframe, event_filter)
 
@@ -44,8 +46,9 @@ class DelayFileReader:
             return None
 
     @staticmethod
-    def __filter_delay_greater_than_15_minutes(
+    def __apply_delay_filter(
         delay_dataframe: pd.DataFrame,
+        delay_filter: DelayFilter = DelayFilter.FIFTEEN_PLUS,
     ) -> pd.DataFrame:
         """
         filter_delay_greater_than_15_minutes filters the delays greater than 15 minutes
@@ -53,8 +56,14 @@ class DelayFileReader:
         if "Variation" not in delay_dataframe.columns:
             print("Variation column not found in the delay file")
             return None
-
-        delay_dataframe = delay_dataframe[delay_dataframe["Variation"] >= 15].reset_index(drop=True)
+        
+        if delay_filter == DelayFilter.FIFTEEN_PLUS:
+            delay_dataframe = delay_dataframe[delay_dataframe["Variation"] >= 15].reset_index(drop=True)
+        elif delay_filter == DelayFilter.THREE_TO_FIFTEEN:
+            delay_dataframe = delay_dataframe[
+                (delay_dataframe["Variation"] >= 3) & (delay_dataframe["Variation"] < 15)
+            ].reset_index(drop=True)
+        
         return delay_dataframe
 
     @staticmethod
