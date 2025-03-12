@@ -10,6 +10,8 @@
 A simple application for parsing train delay data text files. Simply specify the directory you would like the parser to search through and it will read all text files for delay data.
 The output of the application is one excel file with all delay data combined, grouped and sorted by timestamp. The GUI allows you to select which event types you'd like to filter by.
 
+![alt text](https://github.com/TomAston1996/delay-file-parser/blob/main/img/app.png?raw=true)
+
 ## 🧑‍💻 Tech Stack
 
 ![Python]
