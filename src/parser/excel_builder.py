@@ -5,6 +5,7 @@ Author: Tom Aston
 """
 
 import time
+import datetime
 
 import pandas as pd
 
@@ -56,6 +57,8 @@ class ExcelBuilder:
         self.__format_dataframe()
 
         self.excel_dataframe.to_excel(f"{self.destination_path}/results-{time.time()}.xlsx", index=False)
+
+        print(f"[{str(datetime.datetime.now())}][INFO] 📊 Excel file created successfully")
 
     def __build_dataframe_from_files(self, files_to_parse: list[str]) -> None:
         """
